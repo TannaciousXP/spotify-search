@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/TannaciousXP/spotify-search/issues"
   },
-  "homepage": "https://github.com/TannaciousXP/spotify-search#readme"
+  "homepage": "https://github.com/TannaciousXP/spotify-search#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
 }
