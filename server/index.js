@@ -13,8 +13,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// server the index.html page
-app.use('/', (req, res) => {
+
+// serve the index.html page
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
