@@ -3,8 +3,11 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
 
-const app = express();
+// import from config folder and helpersFuncs.js
+const {id, secret} = requier('../config/config.js');
+const func = require('./helpers/helperFuncs.js');
 
+const app = express();
 // use middleware
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
