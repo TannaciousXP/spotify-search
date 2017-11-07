@@ -40,6 +40,16 @@ module.exports = {
       return;
     }
   },
+  resortNestedArr: function(nestedArr, length) {
+    return nestedArr.reduce((oneArr, artists, i) => {
+      if (artists.length !== 0) {
+        for (let artist of artists) {
+          oneArr.push([artist, length - i]);
+        }
+      }
+      return oneArr;
+    }, []);
+  },
   sortBySimThenPop: function(artistArr, genresArr) {
     let output = Array.apply(null, Array(genresArr.length));
     output = output.map(ele => []);
@@ -49,6 +59,25 @@ module.exports = {
         this.insert(output[genresArr.length - i], artist);
       }
     }
+    output = this.resortNestedArr(output, genresArr.length);
     return output;
+  },
+  getAlbums: function(simArr, token) {
+    let output = [];
+    for (let i = 0; i < simArr.length; i++) {
+      let albumsOpt = {
+        url: `https://api.spotify.com/v1/artists/${simArr[i].id}/albums?album_type=album&market=US`,
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      output.push(this.rp.get(albumsOpt));
+    }
+    Promise.all(output).then(function(values) {
+      console.log(`Promised to get albums ${values}`);
+    }).catch(function(err) {
+      console.log('Failed to get albums', err);
+    });
   }
 };
