@@ -62,11 +62,11 @@ module.exports = {
     output = this.resortNestedArr(output, genresArr.length);
     return output;
   },
-  getAlbums: function(simArr, token) {
+  getAlbums: function(sortedArr, token) {
     let output = [];
-    for (let i = 0; i < simArr.length; i++) {
+    for (let i = 0; i < sortedArr.length; i++) {
       let albumsOpt = {
-        url: `https://api.spotify.com/v1/artists/${simArr[i].id}/albums?album_type=album&market=US`,
+        url: `https://api.spotify.com/v1/artists/${sortedArr[i][0].id}/albums?album_type=album&market=US`,
         headers: {
           'Authorization': 'Bearer ' + token
         },
@@ -74,10 +74,15 @@ module.exports = {
       };
       output.push(this.rp.get(albumsOpt));
     }
-    Promise.all(output).then(function(values) {
-      console.log(`Promised to get albums ${values}`);
-    }).catch(function(err) {
-      console.log('Failed to get albums', err);
+    return new Promise(function(resolve, reject) {
+      Promise.all(output).then(function(values) {
+        console.log(`Promised to get albums ${values}`);
+        resolve(values);
+      }).catch(function(err) {
+        console.log('Failed to get albums', err);
+        reject(err);
+      });
+
     });
   }
 };

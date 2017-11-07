@@ -63,23 +63,15 @@ app.use('/getList', (req, res) => {
         // X = matching genreTags
         // sort the body by [artist, X]
         sortedArr = func.sortBySimThenPop(body.artists, genres);
-        res.send(sortedArr);
-
         // new Promise((resolve, reject) => {
-        //   albumsArr = [];
-        //   for (let i = 0; i < sortedArr.length; i++) {
-        //     if (sortedArr[i].length === 0) {
-        //       albumsArr.push([]);
-        //     } else {
-        //       let artistSongList = func.getAlbums(sortedArr[i], token);
-        //       albumsArr.push(artistSongList);
+        //   albumsArr = func.getAlbums(sortedArr, token);
+        //   resolve(albumsArr);
+        // }).then(albumsArr => res.send(albumsArr));
+        func.getAlbums(sortedArr, token).then(relatedArtist => {
+          albumsArr = relatedArtist;
+          res.send(albumsArr);
+        }).catch(err => console.log('Failed to get songsList: ', err));
 
-        //       if (i === sortedArr.length - 1) {
-        //         resolve(albumsArr);
-        //       }
-        //     }
-        //   }
-        // });
 
       }).catch(err => console.log('Failed to get similar artists', err));
     }).catch(err => console.log('Failed to get artist', err));
