@@ -60,7 +60,8 @@ app.use('/getList', (req, res) => {
       };
       // search up related artists
       rp.get(simOpts).then(body => {
-      //
+        sortedArr = func.sortBySimThenPop(body.artists, genres);
+        res.send(sortedArr);
 
 
       }).catch(err => console.log('Failed to get similar artists', err));
