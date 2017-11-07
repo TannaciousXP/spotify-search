@@ -34,12 +34,11 @@ let authOptions = {
 // get the list;
 app.use('/getList', (req, res) => {
   // get the search artist and replace spaces with +
-  let artist = req.query.q.relace(/ /g, '+');
+  let artist = req.query.q.replace(/ /g, '+');
   // set up genres, artistId, token, sortedArr, albumsArr;
   let genres, artistId, token, sortedArr, albumsArr;
   // get access token
   rp.post(authOptions).then(body => {
-    console.log(body);
     token = body.access_token;
     let artistOpt = {
       url: `https://api.spotify.com/v1/search?q=${artist}&type=artist`,
@@ -49,9 +48,24 @@ app.use('/getList', (req, res) => {
       json: true
     };
     // make another reqest to get artist info
+    rp.get(artistOpt).then(body => {
+      genres = body.artists.items[0].genres;
+      artistId = body.artists.items[0].id;
+      let simOpts = {
+        url: `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      // search up related artists
+      rp.get(simOpts).then(body => {
+      //
 
 
-  }).catch(err => console.log('Failed Request: ', err));
+      }).catch(err => console.log('Failed to get similar artists', err));
+    }).catch(err => console.log('Failed to get artist', err));
+  }).catch(err => console.log('Failed to get token: ', err));
 
 
 
