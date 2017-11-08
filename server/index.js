@@ -51,7 +51,7 @@ app.use('/getList', (req, res) => {
     rp.get(artistOpt).then(body => {
       genres = body.artists.items[0].genres;
       artistId = body.artists.items[0].id;
-      artist = body.artists.items;
+      artist = body.artists.items[0];
       let simOpts = {
         url: `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
         headers: {
