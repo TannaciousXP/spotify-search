@@ -51,6 +51,7 @@ app.use('/getList', (req, res) => {
     rp.get(artistOpt).then(body => {
       genres = body.artists.items[0].genres;
       artistId = body.artists.items[0].id;
+      artist = body.artists.items;
       let simOpts = {
         url: `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
         headers: {
@@ -69,7 +70,7 @@ app.use('/getList', (req, res) => {
           func.getAlbumsNTracks(relatedArtist, token).then(albNtracks => {
             // filter Tracks
             albumsArr = func.filterAlbumsAndMakeList(albNtracks);
-            res.send(albumsArr);
+            res.send([artist, sortedArr, albumsArr]);
 
           }).catch(err => console.log('Failed to get albums and tracks', err));
         }).catch(err => console.log('Failed to get songsList: ', err));
