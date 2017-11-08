@@ -11,25 +11,29 @@ After the token make another request to the endpoint
 https://api.spotify.com/v1/search?q=${artist}&type=artist
 to get the artist information such as id and genre tags
 
-After we get the information, we make another call to the endpoint
+After I got the information, I made another call to the endpoint
 https://api.spotify.com/v1/artists/${artistId}/related-artists
 to get a list of the artist that are similarity
 
-We take the related-artist and separte them by matching genre tags to return an array of
+I took the related-artist and separte them by matching genre tags to return an array of
 [[], [], []] 0 index will give us if all of the search artist tags match, then 1 less etc..
+
+Afterwards we sort the array so that there it's it looks like
+[[arist, matchingTags], [artist, matchingTags], etc...]
 
 ```
 
 2 - We want to make sure the tour performs well. find the top 3 albums by popularity availble in the US for each artist. This should help the artists organize their song selection.
 
 ```
-After we make sorted out the list [[], [], []] we should loop through them to make two more api calls for their albums
+After I the sorted out the list [[arist, matchingTags], [artist, matchingTags], etc...] we should loop through them to make two more api calls for their albums then ablums&track
 
 https://api.spotify.com/v1/artists/${simArr[i].id}/albums?album_type=album&market=US
 To get a list of their albums id
+Use promise.all[listOfApiCalls]
 
 https://api.spotify.com/v1/albums?ids=${getAlbums}&market=US
-To get their albums track and sort by popularity and filter out the first three albums
+To get their albums track and sort by popularity and filter out the first three albums. After we retieve their albums, I concat the string of the albumsid then repeat the process of promise all and then make the promise.all[listOfAblumsApiCalls]
 
 ```
 
@@ -37,16 +41,69 @@ To get their albums track and sort by popularity and filter out the first three 
 3 - The artists claim they "dont understand Americans" and give up on organizing their own song selection for concert. Using the top 3 albums, create a 15 song setlist. Each album should contribute X number of songs to the setlist where X is proportional to that album's realtive popularity.
 
 ```
-After we get their top 3 albums, for each artist we need to figure out their ratio with
+After I got their top 3 albums, for each artist I needed to figure out their ratio with
+
+if they had 3 albums it would be =>
 (popularity + popularity + popularity) / 15 = ratio
 X = Math.round(popularity / ratio) returns the number of songs from each album
 
-Do Math.random to select tracks from each album;
+Do Math.random to select tracks from each album and push it into the songsList and append it to the HTML
+
+* How it renders on the page
+First Ul element will be the artist Searched for
+- Id
+- Genre tags
+
+Artists Ul elements for artist: Search for artist: Artistname
+- Matching tags
+- Popularity
+- Genre Tags
+- ...List of songs
+
 ```
 
-4 - Now tha tyou are familiar with the APOI and its data model, it is time to utilize this knowolege to evalue a market channel. For the following questins, assume that you have the ability to serve ads directly to users on the Spotify platform.  
-  
-  a) Explaing which endpoint(s) you would use to target a user and how you would dtermine if the add yield a positive ROI.  
-  b) Describe a lightweight test to validate this hypothesis.
-  c) Assuming the test is successful, describe how you owuld scale the channel to better target users overtime. 
+4 - Now tha tyou are familiar with the API and its data model, it is time to utilize this knowolege to evalue a market channel. For the following questins, assume that you have the ability to serve ads directly to users on the Spotify platform.
 
+  ```
+  *** Assuming this ad will be an ad for ease ***
+  ```
+
+  a) Explaing which endpoint(s) you would use to target a user and how you would determine if the add yield a positive ROI.
+
+  ```
+  There would have been another end point to look up for the certain tracks
+
+  https://api.spotify.com/v1/tracks?ids={tracksID}&market=US
+  This would have been the best endpoint because I found out the top 3 popular albums of an artist, and got 15 tracks from the 3 ablums. The addition endpoint to retrieve the tracks tells us how how popular the track is.
+
+  We can serve the ads on that top album top few songs;
+  ```
+  b) Describe a lightweight test to validate this hypothesis.
+  ```
+  For the lightweight test, I would have 3 groups
+  
+  1) highest rated albums and track
+  2) mid rated albums and track
+  3) low rated albums and track
+
+  We serve the same ad for ease on the tracks associated with their popularity to see which group ads will get the most clicks.
+
+  hypothesis: Group 1 will have the most clicks on the ad because their are most users playing those certain tracks;
+
+  ```
+
+  c) Assuming the test is successful, describe how you would scale the channel to better target users overtime. 
+  
+  ```
+  Assuming the the hypothesis is correct, we now know that the highest rated albums and track yields the best ROI;
+
+  Ways we can scale and better target users overtime.
+  - Do some market research on what songs are normally enjoyed with ease products and serve the ads on those genres and popular songs
+
+  - Only serve ads on the location of the spotify marketing channel that ease is located in to save cost on ads
+    * if possible find out the user age, and if we can somehow know the user age, we can only serve the ads to the users that are 18+ to further cut cost
+
+  - If possible we can contact the artists and use some marketing budget to see if they can be an influencer for ease and have ease associated with the artist to piggyback off their reputation.
+
+  - Scale it across similar channels like spotify
+  ```
