@@ -102,15 +102,19 @@ let getLists = () => {
   let req = new Request(`http://localhost:3000/getList?q=${value.value}`, {
     method: 'POST'
   });
-
+  // use WEB API fetch to make a call to server
   fetch(req).then(res => {
     return res.json();
   }).then(data => {
+    // change the display to nothing
     value.value = '';
+    // change the response inner HTML to nothing
     response.innerHTML = null;
+    // creates the Ul list for the artist search for
     let searchFor = createUlForArtist(data[0]);
+    // append it response
     response.appendChild(searchFor);
-
+    // render all the songs on the page
     renderArtistList(data[1], data[2], response);
   }).catch(err => console.warn('Request failed', err));
 };

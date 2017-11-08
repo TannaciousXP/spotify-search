@@ -222,22 +222,25 @@ module.exports = {
     let albumsNTracksOpt, albumsStr;
     // push all api calls into output
     for (let albums of albumsList) {
-      albumsStr = '';
-      for (let i = 0; i < albums.items.length; i++) {
-        if (i === albums.items.length - 1) {
-          albumsStr += `${albums.items[i].id}`;
-        } else {
-          albumsStr += `${albums.items[i].id},`;
+      // check to see if the items length is > 0 or else it will break the next endpoint
+      if (albums.items.length > 0) {
+        albumsStr = '';
+        for (let i = 0; i < albums.items.length; i++) {
+          if (i === albums.items.length - 1) {
+            albumsStr += `${albums.items[i].id}`;
+          } else {
+            albumsStr += `${albums.items[i].id},`;
+          }
         }
+        albumsNTracksOpt = {
+          url: `https://api.spotify.com/v1/albums?ids=${albumsStr}&market=US`,
+          headers: {
+            'Authorization': 'Bearer ' + token
+          },
+          json: true
+        };
+        output.push(this.rp.get(albumsNTracksOpt));
       }
-      albumsNTracksOpt = {
-        url: `https://api.spotify.com/v1/albums?ids=${albumsStr}&market=US`,
-        headers: {
-          'Authorization': 'Bearer ' + token
-        },
-        json: true
-      };
-      output.push(this.rp.get(albumsNTracksOpt));
     }
 
     // return promise api calls
