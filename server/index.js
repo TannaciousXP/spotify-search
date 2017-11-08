@@ -63,9 +63,11 @@ app.use('/getList', (req, res) => {
         // X = matching genreTags
         // sort the body by [artist, X]
         sortedArr = func.sortBySimThenPop(body.artists, genres);
-
+        // send a request to get albums
         func.getAlbums(sortedArr, token).then(relatedArtist => {
+          // send a request to get albums and track
           func.getAlbumsNTracks(relatedArtist, token).then(albNtracks => {
+            // filter Tracks
             albumsArr = func.filterAlbumsAndMakeList(albNtracks);
             res.send(albumsArr);
 

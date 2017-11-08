@@ -91,9 +91,9 @@ module.exports = {
   },
   // generate a songList of 15 songs from albums;
   generateList: function(artistAlbums, idx) {
-    console.log('Inside genrateList');
+    // console.log('Inside genrateList');
     let songsList = [];
-    let rand, songs, songsRatio, songsDebt;
+    let rand, songs, songsRatio, songsDebt, songsIdx, songsLength;
     // actions for one only album
     if (artistAlbums[idx].albums.length === 1) {
       let onlyAlbum = artistAlbums[idx].albums[0].tracks.items;
@@ -113,53 +113,84 @@ module.exports = {
       for (let album of artistAlbums[idx].albums) {
         albumsNPopularity.push([album, album.popularity]);
       }
-      //
+      // calculate the ratio;
       let ratio = (albumsNPopularity.reduce((count, album) => {
         count += album[1];
         return count;
       }, 0)) / 15;
 
 
+      // console.log(ratio);
+      // console.log('then');
+      // for (let v of albumsNPopularity) {
+      //   console.log(v[1]);
+      // }
+      // console.log('end');
+
       for (let albNPop of albumsNPopularity) {
         songs = albNPop[0].tracks.items;
         songsRatio = Math.round(albNPop[1] / ratio);
-
         if (songs.length < songsRatio) {
           // SongsDebt this just incase there aren't enough songs from the artist;
           songsDebt = songsRatio - songs.length;
           for (let i = 0; i < songs.length; i++) {
-            rand = songs[Math.random() * songs.length >> 0];
+            songsIdx = Math.random() * songs.length >> 0;
+            rand = songs[songsIdx];
             songsList.push(rand.name);
+            songs.splice(songsIdx, 1);
           }
         } else {
           // if the next album can cover the songDebt, we will include it
-          if (songsDebt !== 0 && (songs.length > songsDebt + songsRatio)) {
+          if (songsDebt !== 0 && (songs.length > (songsDebt + songsRatio))) {
             for (let i = 0; i < ((songsRatio + songsDebt)); i++) {
-              rand = songs[Math.random() * songs.length >> 0];
+              songsIdx = Math.random() * songs.length >> 0;
+              rand = songs[songsIdx];
               songsList.push(rand.name);
+              songs.splice(songsIdx, 1);
             }
             // set songsDebt back to Zero;
             songsDebt = 0;
           } else {
             for (let i = 0; i < songsRatio; i++) {
-              rand = songs[Math.random() * songs.length >> 0];
+              songsIdx = Math.random() * songs.length >> 0;
+              rand = songs[songsIdx];
               songsList.push(rand.name);
+              songs.splice(songsIdx, 1);
             }
-
           }
         }
+      }
 
+      if (songsList.length !== 15) {
+        if (songsList.length > 15) {
+          let toPop = songsList.length - 15;
+          for (let i = 0; i < toPop; i++) {
+            songsList.pop();
+          }
+        } else if (songsList.length < 15) {
+          let toAdd = 15 - songsList.length;
+          while (toAdd !== 0) {
+            rand = albumsNPopularity[Math.random() * albumsNPopularity.length >> 0];
+            songs = rand[0].tracks.items;
+            if (songs.length !== 0) {
+              songsIdx = Math.random() * songs.length >> 0;
+              rand = songs[songsIdx];
+              songsList.push(rand.name);
+              songs.splice(idx, 1);
+              toAdd--;
+            }
+          }
+        }
       }
     }
-    console.log(`SONGS: ${songsList}`);
     artistAlbums[idx] = songsList;
   },
   // sort the album by popularity, then filter the songs, then calculate ratio and generateList
   filterAlbumsAndMakeList: function(albNTracks) {
     for (let i = 0; i < albNTracks.length; i++) {
-      if (albNTracks[i].albums.length > 3) {
+      if (albNTracks[i].albums.length > 1) {
         albNTracks[i].albums = albNTracks[i].albums.sort((a, b) => b.popularity - a.popularity)
-                                                    .filter((ele, i) => i < 3);
+                                                   .filter((ele, i) => i < 3);
       }
       this.generateList(albNTracks, i);
     }
