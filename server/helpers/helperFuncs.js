@@ -1,5 +1,6 @@
 module.exports = {
   rp: require('request-promise'),
+  // find out how many matching genre tags there are
   idxToInsert: function(artist, genresArr) {
     let idx = 0;
     for (let genre of artist.genres) {
@@ -11,6 +12,7 @@ module.exports = {
     }
     return idx;
   },
+  // binary insert into the arr with the amount of matching tags
   insert: function(simArr, artist, start, end) {
     start = start || 0;
     end = end || simArr.length - 1;
@@ -40,6 +42,7 @@ module.exports = {
       return;
     }
   },
+  // resort the arr to a single level;
   resortNestedArr: function(nestedArr, length) {
     return nestedArr.reduce((oneArr, artists, i) => {
       if (artists.length !== 0) {
@@ -50,6 +53,7 @@ module.exports = {
       return oneArr;
     }, []);
   },
+  // return the list of artists sorted by popularity and how many tags match
   sortBySimThenPop: function(artistArr, genresArr) {
     let output = Array.apply(null, Array(genresArr.length));
     output = output.map(ele => []);
@@ -62,10 +66,12 @@ module.exports = {
     output = this.resortNestedArr(output, genresArr.length);
     return output;
   },
+  // get an array of artist albums;
   getAlbums: function(sortedArr, token) {
     let output = [];
+    let albumsOpt;
     for (let i = 0; i < sortedArr.length; i++) {
-      let albumsOpt = {
+      albumsOpt = {
         url: `https://api.spotify.com/v1/artists/${sortedArr[i][0].id}/albums?album_type=album&market=US`,
         headers: {
           'Authorization': 'Bearer ' + token
@@ -76,13 +82,119 @@ module.exports = {
     }
     return new Promise(function(resolve, reject) {
       Promise.all(output).then(function(values) {
-        console.log(`Promised to get albums ${values}`);
         resolve(values);
       }).catch(function(err) {
-        console.log('Failed to get albums', err);
         reject(err);
       });
 
+    });
+  },
+  // generate a songList of 15 songs from albums;
+  generateList: function(artistAlbums, idx) {
+    console.log('Inside genrateList');
+    let songsList = [];
+    let rand, songs, songsRatio, songsDebt;
+    // actions for one only album
+    if (artistAlbums[idx].albums.length === 1) {
+      let onlyAlbum = artistAlbums[idx].albums[0].tracks.items;
+      if (onlyAlbum.length < 15) {
+        for (let track of onlyAlbum) {
+          songsList.push(track.name);
+        }
+      } else {
+        for (let i = 0; i < 15; i++) {
+          rand = onlyAlbum[Math.random() * onlyAlbum.length >> 0];
+          songsList.push(rand.name);
+        }
+      }
+    } else {
+      // actions for if there is more than one artistAblums.albums
+      let albumsNPopularity = [];
+      for (let album of artistAlbums[idx].albums) {
+        albumsNPopularity.push([album, album.popularity]);
+      }
+      //
+      let ratio = (albumsNPopularity.reduce((count, album) => {
+        count += album[1];
+        return count;
+      }, 0)) / 15;
+
+
+      for (let albNPop of albumsNPopularity) {
+        songs = albNPop[0].tracks.items;
+        songsRatio = Math.round(albNPop[1] / ratio);
+
+        if (songs.length < songsRatio) {
+          // SongsDebt this just incase there aren't enough songs from the artist;
+          songsDebt = songsRatio - songs.length;
+          for (let i = 0; i < songs.length; i++) {
+            rand = songs[Math.random() * songs.length >> 0];
+            songsList.push(rand.name);
+          }
+        } else {
+          // if the next album can cover the songDebt, we will include it
+          if (songsDebt !== 0 && (songs.length > songsDebt + songsRatio)) {
+            for (let i = 0; i < ((songsRatio + songsDebt)); i++) {
+              rand = songs[Math.random() * songs.length >> 0];
+              songsList.push(rand.name);
+            }
+            // set songsDebt back to Zero;
+            songsDebt = 0;
+          } else {
+            for (let i = 0; i < songsRatio; i++) {
+              rand = songs[Math.random() * songs.length >> 0];
+              songsList.push(rand.name);
+            }
+
+          }
+        }
+
+      }
+    }
+    console.log(`SONGS: ${songsList}`);
+    artistAlbums[idx] = songsList;
+  },
+  // sort the album by popularity, then filter the songs, then calculate ratio and generateList
+  filterAlbumsAndMakeList: function(albNTracks) {
+    for (let i = 0; i < albNTracks.length; i++) {
+      if (albNTracks[i].albums.length > 3) {
+        albNTracks[i].albums = albNTracks[i].albums.sort((a, b) => b.popularity - a.popularity)
+                                                    .filter((ele, i) => i < 3);
+      }
+      this.generateList(albNTracks, i);
+    }
+    return albNTracks;
+  },
+  getAlbumsNTracks: function(albumsList, token) {
+    let output = [];
+    let albumsNTracksOpt, albumsStr;
+    for (let albums of albumsList) {
+      albumsStr = '';
+      for (let i = 0; i < albums.items.length; i++) {
+        if (i === albums.items.length - 1) {
+          albumsStr += `${albums.items[i].id}`;
+        } else {
+          albumsStr += `${albums.items[i].id},`;
+        }
+      }
+      albumsNTracksOpt = {
+        url: `https://api.spotify.com/v1/albums?ids=${albumsStr}&market=US`,
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        json: true
+      };
+      output.push(this.rp.get(albumsNTracksOpt));
+    }
+
+
+    return new Promise (function(resolve, reject) {
+      Promise.all(output).then(albNTracks => {
+        // call the the func getAlbums and Track
+        resolve(albNTracks);
+      }).catch(err => {
+        reject(err);
+      });
     });
   }
 };

@@ -9,7 +9,6 @@ let getLists = () => {
     method: 'POST'
   });
   fetch(req).then(res => {
-    console.log(res);
     return res.json();
   }).then(data => console.log(data)).catch(err => console.warn('Request failed', err));
 };

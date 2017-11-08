@@ -63,23 +63,19 @@ app.use('/getList', (req, res) => {
         // X = matching genreTags
         // sort the body by [artist, X]
         sortedArr = func.sortBySimThenPop(body.artists, genres);
-        // new Promise((resolve, reject) => {
-        //   albumsArr = func.getAlbums(sortedArr, token);
-        //   resolve(albumsArr);
-        // }).then(albumsArr => res.send(albumsArr));
+
         func.getAlbums(sortedArr, token).then(relatedArtist => {
-          albumsArr = relatedArtist;
-          res.send(albumsArr);
+          func.getAlbumsNTracks(relatedArtist, token).then(albNtracks => {
+            albumsArr = func.filterAlbumsAndMakeList(albNtracks);
+            res.send(albumsArr);
+
+          }).catch(err => console.log('Failed to get albums and tracks', err));
         }).catch(err => console.log('Failed to get songsList: ', err));
 
 
       }).catch(err => console.log('Failed to get similar artists', err));
     }).catch(err => console.log('Failed to get artist', err));
   }).catch(err => console.log('Failed to get token: ', err));
-
-
-
-
 });
 
 
