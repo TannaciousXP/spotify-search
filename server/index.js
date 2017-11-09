@@ -71,6 +71,7 @@ app.use('/getList', (req, res) => {
           func.getAlbumsNTracks(relatedArtist, token).then(albNtracks => {
             // filter Tracks
             albumsArr = func.filterAlbumsAndMakeList(albNtracks);
+            // send back info
             res.send([artist, sortedArr, albumsArr]);
           }).catch(err => console.log('Failed to get albums and tracks', err));
         }).catch(err => console.log('Failed to get songsList: ', err));

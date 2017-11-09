@@ -167,4 +167,4 @@ I chose Request because of the formatting to send over a request to the spotify 
 
   - Search daft punk, illenium will work
   - Search maroon 5 will cause maxium call stack exceed.
-  - Possibly we can limit our search to a certain amount.
+  - Possible fix - we can limit our search to a certain amount of related artist.
