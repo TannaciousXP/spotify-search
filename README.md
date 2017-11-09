@@ -165,7 +165,8 @@ I chose Request because of the formatting to send over a request to the spotify 
 
 ### Bugs
   - Currently, functions works. However, the code will break if we search up a really popular artist because of the stack calls.
+  - Search maroon 5 will cause maxium call stack exceed.
+    - My guess is because there are way more related artist;
+    - Possible fix - we can limit our search to a certain amount of related artist.
 
   - Search daft punk, illenium will work
-  - Search maroon 5 will cause maxium call stack exceed.
-  - Possible fix - we can limit our search to a certain amount of related artist.
