@@ -1,4 +1,4 @@
-## ease coding challenge
+## eaze coding challenge
 
 By Peter X. Tan
 
@@ -24,7 +24,7 @@ $ npm run start
 
 ```
 
-In the browser, go to [ease coding challenge](http://localhost:3000)
+In the browser, go to [eaze coding challenge](http://localhost:3000)
 
 ### 3. Tech Stack
 
