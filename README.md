@@ -1,4 +1,4 @@
-## ease coding challenge
+## eaze coding challenge
 
 By Peter X. Tan
 
@@ -17,14 +17,14 @@ $ git clone https://github.com/TannaciousXP/spotify-search.git && cd spotify-sea
 $ npm install
 ```
 
-In separate terminal windows run the following 2 commands:
+In separate terminal windows run the following command:
 
 ```sh
 $ npm run start
 
 ```
 
-In the browser, go to [ease coding challenge](http://localhost:3000)
+In the browser, go to [eaze coding challenge](http://localhost:3000)
 
 ### 3. Tech Stack
 
