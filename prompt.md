@@ -1,6 +1,6 @@
 # Prompt
 
-1 - First we need to get some opening acts. There are two categories: similarity and popularity. Popularity you can get from the apoi. Similarity is a metric we define as how close a related artist's genre tags match Daft Punks genre tags. Return a list of similar artist sorted first by similarity. then popularity
+1 - First we need to get some opening acts. There are two categories: similarity and popularity. Popularity you can get from the api. Similarity is a metric we define as how close a related artist's genre tags match Daft Punks genre tags. Return a list of similar artist sorted first by similarity. then popularity
 
 ```
 Type in daft punk in the search bar, the request will be a post method to endpoint
@@ -63,10 +63,10 @@ Artists Ul elements for artist: Search for artist: Artistname
 
 ```
 
-4 - Now tha tyou are familiar with the API and its data model, it is time to utilize this knowolege to evalue a market channel. For the following questins, assume that you have the ability to serve ads directly to users on the Spotify platform.
+4 - Now that you are familiar with the API and its data model, it is time to utilize this knowolege to evalue a market channel. For the following questins, assume that you have the ability to serve ads directly to users on the Spotify platform.
 
   ```
-  *** Assuming this ad will be an ad for eaze ***
+  *** Assuming this ad will be for eaze ***
   ```
 
   a) Explaing which endpoint(s) you would use to target a user and how you would determine if the add yield a positive ROI.
