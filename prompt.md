@@ -89,7 +89,7 @@ Artists Ul elements for artist: Search for artist: Artistname
 
   We serve the same ad for ease on the tracks associated with their popularity to see which group ads will get the most clicks.
 
-  hypothesis: Group 1 will have the most clicks on the ad because have the most users playing those certain tracks;
+  hypothesis: Group 1 will have the most clicks on the ad because they have the most users playing those certain tracks;
 
   ```
 
