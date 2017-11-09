@@ -11,7 +11,7 @@ By Peter X. Tan
 
 On the command prompt run the following commands
 
-```
+```sh
 $ git clone https://github.com/TannaciousXP/spotify-search.git && cd spotify-search
 
 $ npm install
@@ -19,7 +19,7 @@ $ npm install
 
 In separate terminal windows run the following command:
 
-```
+```sh
 $ npm run start
 
 ```
