@@ -66,7 +66,7 @@ Artists Ul elements for artist: Search for artist: Artistname
 4 - Now tha tyou are familiar with the API and its data model, it is time to utilize this knowolege to evalue a market channel. For the following questins, assume that you have the ability to serve ads directly to users on the Spotify platform.
 
   ```
-  *** Assuming this ad will be an ad for ease ***
+  *** Assuming this ad will be an ad for eaze ***
   ```
 
   a) Explaing which endpoint(s) you would use to target a user and how you would determine if the add yield a positive ROI.
@@ -87,7 +87,7 @@ Artists Ul elements for artist: Search for artist: Artistname
   2) mid rated albums and track
   3) low rated albums and track
 
-  We serve the same ad for ease on the tracks associated with their popularity to see which group ads will get the most clicks.
+  We serve the same ad for eaze on the tracks associated with their popularity to see which group ads will get the most clicks.
 
   hypothesis: Group 1 will have the most clicks on the ad because they have the most users playing those certain tracks;
 
@@ -101,10 +101,10 @@ Artists Ul elements for artist: Search for artist: Artistname
   Ways we can scale and better target users overtime.
   - Do some market research on what songs are normally enjoyed with ease products and serve the ads on those genres and popular songs
 
-  - Only serve ads on the location of the spotify marketing channel that ease is located in to save cost on ads
+  - Only serve ads on the location of the spotify marketing channel that eaze is located in to save cost on ads
     * if possible find out the user age, and if we can somehow know the user age, we can only serve the ads to the users that are 18+ (or the legal age) to further cut cost
 
-  - If possible we can contact the artists and use some marketing budget to see if they can be an influencer for ease and have ease associated with the artist to piggyback off their reputation.
+  - If possible we can contact the artists and use some marketing budget to see if they can be an influencer for eaze and have eaze associated with the artist to piggyback off their reputation.
 
   - Scale it across similar channels like spotify
   ```
