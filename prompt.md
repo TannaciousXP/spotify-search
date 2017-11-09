@@ -26,7 +26,7 @@ Afterwards we sort the array so that there it's it looks like
 2 - We want to make sure the tour performs well. find the top 3 albums by popularity availble in the US for each artist. This should help the artists organize their song selection.
 
 ```
-After I sorted out the list [[arist, matchingTags], [artist, matchingTags], etc...] I looped through them to make two more api calls for their albums then ablums&track
+After I sorted out the list [[arist, matchingTags], [artist, matchingTags], etc...] I looped through them to make two more api calls for their albums then another api call for the ablums & tracks
 
 https://api.spotify.com/v1/artists/${simArr[i].id}/albums?album_type=album&market=US
 To get a list of their albums id
@@ -42,9 +42,9 @@ To get their albums track and sort by popularity and filter out the first three 
 3 - The artists claim they "dont understand Americans" and give up on organizing their own song selection for concert. Using the top 3 albums, create a 15 song setlist. Each album should contribute X number of songs to the setlist where X is proportional to that album's realtive popularity.
 
 ```
-After I got their top 3 albums, for each artist I needed to figure out their ratio with
+After I got their top 3 albums ( if they had 3 albums), for each artist I needed to figure out their ratio of songs with the following: 
 
-if they had 3 albums it would be =>
+if they had 3 albums it would be the formula would be =>
 (popularity + popularity + popularity) / 15 = ratio
 X = Math.round(popularity / ratio) returns the number of songs from each album
 
@@ -69,23 +69,23 @@ Artists Ul elements for artist: Search for artist: Artistname
   *** Assuming this ad will be for eaze ***
   ```
 
-  a) Explaing which endpoint(s) you would use to target a user and how you would determine if the add yield a positive ROI.
+  a) Explain which endpoint(s) you would use to target a user and how you would determine if the ad yield a positive ROI.
 
   ```
   There would have been another end point to look up for the certain tracks
 
   https://api.spotify.com/v1/tracks?ids={tracksID}&market=US
-  This would have been the best endpoint because I found out the top 3 popular albums of an artist, and got 15 tracks from the 3 ablums. The addition endpoint to retrieve the tracks tells us how how popular the track is.
+  This would have been the best endpoint because I found out the top 3 popular albums of an artist, and got 15 tracks from the 3 ablums. The additional endpoint to retrieve the tracks tells us how how popular the track is.
 
-  We can serve the ads on that top album top few songs;
+  We can serve the ads on the top album's top few songs;
   ```
   b) Describe a lightweight test to validate this hypothesis.
   ```
   For the lightweight test, I would have 3 groups
   
-  1) highest rated albums and track
-  2) mid rated albums and track
-  3) low rated albums and track
+  1) highest rated albums and tracks
+  2) mid rated albums and tracks
+  3) low rated albums and tracks
 
   We serve the same ad for eaze on the tracks associated with their popularity to see which group ads will get the most clicks.
 
@@ -99,12 +99,12 @@ Artists Ul elements for artist: Search for artist: Artistname
   Assuming the the hypothesis is correct, we now know that the highest rated albums and tracks yields the best ROI;
 
   Ways we can scale and better target users overtime.
-  - Do some market research on what songs are normally enjoyed with ease products and serve the ads on those genres and popular songs
+  - Do some market research on what songs are normally enjoyed with eaze products and serve the ads on those genres and popular songs
 
-  - Only serve ads on the location of the spotify marketing channel that eaze is located in to save cost on ads
-    * if possible find out the user age, and if we can somehow know the user age, we can only serve the ads to the users that are 18+ (or the legal age) to further cut cost
+  - Only serve ads on users which eaze is operational in the location to save cost on ads.
+    * if possible find out the user age, and if we can somehow know the user age, we can only serve the ads to the users that are 18+ (or legal age) to further cut cost
 
-  - If possible we can contact the artists and use some marketing budget to see if they can be an influencer for eaze and have eaze associated with the artist to piggyback off their reputation.
+  - If possible we can contact the artists and use some marketing budget to see if they can be an influencer on behalf of eaze so that eaze will be associated with the artists to piggyback off their reputation.
 
   - Scale it across similar channels like spotify
   ```
