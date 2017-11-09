@@ -5,6 +5,7 @@ By Peter X. Tan
 ### 1. System Requirements
 
 * Globally installed [node](https://nodejs.org/en/)
+* Globally installed [nodemon](https://www.npmjs.com/package/nodemon);
 
 
 ### 2. Installation
