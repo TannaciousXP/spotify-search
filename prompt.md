@@ -99,7 +99,7 @@ Artists Ul elements for artist: Search for artist: Artistname
   Assuming the the hypothesis is correct, we now know that the highest rated albums and tracks yields the best ROI;
 
   Ways we can scale and better target users overtime.
-  - Do some market research on what songs are normally enjoyed with eaze products and serve the ads on those genres and popular songs
+  - Do some market research on what songs are normally enjoyed with eaze products and serve the ads on those genres and popular songs.
 
   - Only serve ads on users which eaze is operational in the location to save cost on ads.
     * if possible find out the user age, and if we can somehow know the user age, we can only serve the ads to the users that are 18+ (or legal age) to further cut cost
